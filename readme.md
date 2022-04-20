@@ -33,4 +33,4 @@ you want to share to `Signals to transmit`.
 Once you have your device names, you can write a wrapper script/command
 so you don't have to pass the device names every time.
 
-To undo everything, do `audioshare reset`
+To undo everything, do `audioshare reset`.
