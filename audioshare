@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# taken from this excellent question/answer on
+# supseruser.com:
+# https://superuser.com/a/1621244/1686543,
+# adapted into a bash script
+
+usage() {
+    echo "Usage: audioshare <input-device> <output-device>"
+    echo "To reset: audioshare reset"
+
+}
+
+reset() {
+    echo "Resetting"
+    pactl unload-module module-loopback
+    pactl unload-module module-null-sink
+}
+
+create_sinks() {
+    input_device=$1
+    output_device=$2
+
+    echo "Input device: $input_device"
+    echo
+    echo "Ouput device: $output_device"
+
+    # create transmit sink
+    pactl load-module module-null-sink sink_name=transmit
+    pacmd 'update-sink-proplist transmit device.description="Signals to Transmit"'
+    pacmd 'update-source-proplist transmit.monitor device.description="Monitor of Signals to Transmit"'
+
+    # create combined sink
+    pactl load-module module-null-sink sink_name=combined
+    pacmd 'update-sink-proplist combined device.description="Transmit+Microphone Sink"'
+    pacmd 'update-source-proplist combined.monitor device.description="Transmit+Microphone"'
+
+    # loop back microphone into combined sink
+    pactl load-module module-loopback source=$input_device sink=combined
+
+    # loopback transmit monitor into combined sink
+    pactl load-module module-loopback source=transmit.monitor sink=combined
+
+    # loopback transmit monitor into audio output
+    pactl load-module module-loopback source=transmit.monitor sink=$output_device
+
+    echo "Use a volume vimxer tool to send playback to 'signals to transmit for applications you want to share audio from'"
+    echo "And select the Transmit+Signal microphone"
+}
+
+if [ "$#" -ne 2  ] && [ "$1" != "reset" ]; then
+    usage
+    exit 1
+fi
+
+if [ "$1" = "reset" ]; then
+    reset
+    exit 0
+else
+    create_sinks $1 $2
+    exit 0
+fi
