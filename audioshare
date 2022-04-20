@@ -43,7 +43,7 @@ create_sinks() {
     # loopback transmit monitor into audio output
     pactl load-module module-loopback source=transmit.monitor sink=$output_device
 
-    echo "Use a volume vimxer tool to send playback to 'signals to transmit for applications you want to share audio from'"
+    echo "Use a volume mixer tool to send playback to 'signals to transmit for applications you want to share audio from'"
     echo "And select the Transmit+Signal microphone"
 }
 
