@@ -27,7 +27,7 @@ For you, they will be different.
 4. Now, use something like `pulsemixer` to set your input device to
 `Transmit + Signal`.
 5. Then, use something like `pavucontrol` to send playback from the application
-you want to share to `Signals to transmit`.
+you want to share audio from to `Signals to transmit`.
 6. Done!
 
 Once you have your device names, you can write a wrapper script/command
