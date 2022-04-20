@@ -6,7 +6,7 @@ This means you can still use your microphone to speak while you are sharing audi
 and only the audio from the applications you want to share will be shared.
 
 The code for this is taken from https://superuser.com/a/1621244/1686543
-and has been adapted into a bash script for convenient use.
+and has been adapted by me into a bash script for convenient use.
 
 ## Installation
 1. `git clone` repository
